@@ -8,7 +8,7 @@ export default function Consumer() {
       </button>
 
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
-        <Link href={'/consumer'}>Live Stream</Link>
+        <Link href={'/Consumer/playStream'}>Live Stream</Link>
       </button>
 
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">

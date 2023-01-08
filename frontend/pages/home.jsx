@@ -13,9 +13,9 @@ export default function Home() {
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
         <Link href={'/consumer'}>Consumer</Link>
       </button>
-      <div className="Uniswap justify-center items-center">
+      {/* <div className="Uniswap justify-center items-center">
         <SwapWidget />
-      </div>
+      </div> */}
     </div>
   );
 }
