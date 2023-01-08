@@ -1,0 +1,69 @@
+import { Player } from '@livepeer/react';
+import { mux } from 'mux-embed';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+export default function browse() {
+  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [playerRef, setPlayerRef] = useState();
+
+  const mediaElementRef = useCallback((ref) => {
+    setPlayerRef(ref);
+  }, []);
+
+  useEffect(() => {
+    if (playerRef) {
+      const initTime = mux.utils.now();
+
+      mux.monitor(playerRef, {
+        debug: false,
+        data: {
+          env_key: process.env.REACT_APP_MUX_ENV_KEY,
+          player_name: 'dStorage Sample App - Player',
+          player_init_time: initTime,
+          video_id: url,
+          video_title: title,
+        },
+      });
+    }
+  }, [playerRef]);
+
+  return (
+    <div>
+      <div className="flex flex-col justify-center items-center h-screen font-poppins">
+        <h1 className="text-5xl font-bold pb-2 mt-10 text-slate-900 text-transparent bg-clip-text bg-gradient-to-r from-[#00A660] to-[#28CE88] text-center lg:text-7xl">
+          Livepeer IPFS/Arweave Video Playback
+        </h1>
+
+        <input
+          type="text"
+          placeholder="ipfs://... or ar://"
+          value={url}
+          className="mt-8 px-4 py-2 rounded-lg border-2 border-slate-100 focus:outline-none  w-[80%] bg-slate-100 lg:w-[40%]"
+          onChange={(e) => {
+            setUrl(e.target.value);
+            setTitle(null);
+            setUrl(null);
+            setLoading(true);
+            setTimeout(() => {
+              setUrl(e.target.value);
+              setLoading(false);
+            }, 1000);
+          }}
+        />
+
+        <div className="mt-8 w-[90%] lg:w-[40%]">
+          {url && (
+            <Player title={title || url} src={url} autoPlay muted showPipButton mediaElementRef={mediaElementRef} />
+          )}
+          {loading && (
+            <div className="flex flex-col justify-center mt-8 items-center">
+              <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-[#19BC75]" />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

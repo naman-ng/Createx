@@ -4,19 +4,15 @@ export default function Consumer() {
   return (
     <div className="flex flex-col justify-center items-center">
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
-        <Link href={'/creator'}>Recorded </Link>
+        <Link href={'/Consumer/browse'}>Watch uploaded content </Link>
       </button>
 
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
-        <Link href={'/Consumer/playStream'}>Live Stream</Link>
+        <Link href={'/Consumer/playStream'}>Play Live Stream</Link>
       </button>
 
       <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
         <Link href={'/consumer'}>Live Chat</Link>
-      </button>
-
-      <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
-        <Link href={'/huddle'}>Live Video Call</Link>
       </button>
     </div>
   );
