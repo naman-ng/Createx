@@ -93,7 +93,7 @@ const BundlrContextProvider = ({ children }: any): JSX.Element => {
 
   async function uploadFile(file) {
     try {
-      let tx = await bundlrInstance.uploader.upload(file, [{ name: 'Content-Type', value: 'image/png' }]);
+      let tx = await bundlrInstance.uploader.upload(file, [{ name: 'Content-Type', value: 'video/mp4' }]);
       return tx;
     } catch (error) {
       toast({

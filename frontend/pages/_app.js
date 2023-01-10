@@ -1,9 +1,22 @@
 import '../styles/globals.css';
 import { LivepeerConfig, createReactClient, studioProvider } from '@livepeer/react';
 import { WebBundlr } from '@bundlr-network/client';
-import { MainContext } from '../context';
 import { useState, useRef } from 'react';
 import { providers, utils } from 'ethers';
+import '@rainbow-me/rainbowkit/styles.css';
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { publicProvider } from 'wagmi/providers/public';
+import { polygonMumbai } from 'wagmi/chains';
+import { ChakraProvider } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
+import BundlrContextProvider from '../state/bundlr.context';
+
+const { chains, provider } = configureChains(
+  [polygonMumbai],
+  [jsonRpcProvider({ rpc: () => ({ http: process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL }) }), publicProvider()]
+);
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
@@ -11,47 +24,42 @@ const livepeerClient = createReactClient({
   }),
 });
 
+const { connectors } = getDefaultWallets({
+  appName: 'Bundlr arweave testnet demo',
+  chains,
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
+
+// 2. Extend the theme to include custom colors, fonts, etc
+const colors = {
+  brand: {
+    900: '#1a365d',
+    800: '#153e75',
+    700: '#2a69ac',
+  },
+};
+
+const theme = extendTheme({ colors });
+
 export default function App({ Component, pageProps }) {
-  const [bundlrInstance, setBundlrInstance] = useState();
-  const [balance, setBalance] = useState();
-  const bundlrRef = useRef();
-
-  async function initialiseBundlr() {
-    await window.ethereum.enable();
-
-    const provider = new providers.Web3Provider(window.ethereum);
-    await provider._ready();
-
-    const bundlr = new WebBundlr('https://devnet.bundlr.network', 'matic', provider, {
-      providerUrl: 'https://thrumming-quiet-yard.matic-testnet.discover.quiknode.pro/e8d17c21d6f86cdc291e6c8fa44a6868c51ee863/',
-    });
-    await bundlr.ready();
-
-    setBundlrInstance(bundlr);
-    bundlrRef.current = bundlr;
-    fetchBalance();
-  }
-
-  async function fetchBalance() {
-    const bal = await bundlrRef.current.getLoadedBalance();
-    console.log('bal: ', utils.formatEther(bal.toString()));
-    setBalance(utils.formatEther(bal.toString()));
-  }
-
   return (
     <div>
-      <MainContext.Provider
-        value={{
-          initialiseBundlr,
-          bundlrInstance,
-          balance,
-          fetchBalance,
-        }}
-      >
-        <LivepeerConfig client={livepeerClient}>
-          <Component {...pageProps} />
-        </LivepeerConfig>
-      </MainContext.Provider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <ChakraProvider theme={theme}>
+            <BundlrContextProvider>
+              <LivepeerConfig client={livepeerClient}>
+                <Component {...pageProps} />
+              </LivepeerConfig>
+            </BundlrContextProvider>
+          </ChakraProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </div>
   );
 }

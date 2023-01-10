@@ -23,6 +23,7 @@
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "ethers": "^5.7.2",
+    "filereader-stream": "^2.0.0",
     "framer-motion": "^8.4.0",
     "immer": "^9.0.17",
     "jotai-immer": "^0.1.0",
