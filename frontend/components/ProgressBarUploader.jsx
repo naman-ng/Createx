@@ -2,6 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useProvider, useSigner } from 'wagmi';
 import { WebBundlr } from '@bundlr-network/client';
 import fileReaderStream from 'filereader-stream';
+import * as PushAPI from '@pushprotocol/restapi';
+import * as ethers from 'ethers';
+
+const PK = '8665ed6c0de68518c0676ba29b5868a5020007151d6c91d7614a5b8e2a576ba8'; // channel private key
+const Pkey = `0x${PK}`;
+const signer = new ethers.Wallet(Pkey);
 
 const ProgressBarUploader = () => {
   const [message, setMessage] = useState('');
@@ -14,6 +20,34 @@ const ProgressBarUploader = () => {
 
   const rainbowKitProvider = useProvider();
   const { data: rainbowKitSigner, isError, isLoading } = useSigner();
+
+  const sendNotification = async () => {
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3, // target
+        identityType: 2, // direct payload
+        notification: {
+          title: `NEW CONTENT`,
+          body: `ARWEAVE URL: ${uploadedURL}`,
+        },
+        payload: {
+          title: `NEW CONTENT!!!`,
+          body: `ARWEAVE URL: ${uploadedURL}`,
+          cta: '',
+          img: '',
+        },
+        recipients: 'eip155:5:0x762cA62ca2549ad806763B3Aa1eA317c429bDBDa', // recipient address
+        channel: 'eip155:5:0xFFd01a76cA473B48431E27Ab36f61a764270238F', // your channel address
+        env: 'staging',
+      });
+
+      // apiResponse?.status === 204, if sent successfully!
+      console.log('API repsonse: ', apiResponse);
+    } catch (err) {
+      console.error('Error: ', err);
+    }
+  };
 
   const handleFile = async (e) => {
     setMessage('');
@@ -94,6 +128,7 @@ const ProgressBarUploader = () => {
       .then((res) => {
         setMessage(`Upload Success:`);
         setUploadedURL('https://arweave.net/' + res.data.id);
+        sendNotification;
       })
       .catch((e) => {
         setMessage('Upload error ', e.message);
@@ -130,7 +165,7 @@ const ProgressBarUploader = () => {
       <p className="text-text text-sm">
         {uploadedURL && (
           <a className="underline" href={uploadedURL} target="_blank">
-            {uploadedURL} {fileSize}
+            {uploadedURL} {sendNotification}
           </a>
         )}
       </p>
