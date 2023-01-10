@@ -1,20 +1,22 @@
 import Link from 'next/link';
 import * as React from 'react';
-import '@uniswap/widgets/fonts.css';
 
 export default function Home() {
   return (
-    <div className='flex flex-col justify-center items-center'>
-      <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
+    <div className="flex flex-row justify-center items-center justify-items-center content-center mt-20">
+      <button
+        type="button"
+        className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-10 m-10"
+      >
         <Link href={'/creator'}>Creator </Link>
       </button>
 
-      <button className="m-5 p-5 font-medium text-xl rounded-md text-white bg-blue-400">
+      <button
+        type="button"
+        className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-10 m-10"
+      >
         <Link href={'/consumer'}>Consumer</Link>
       </button>
-      {/* <div className="Uniswap justify-center items-center">
-        <SwapWidget />
-      </div> */}
     </div>
   );
 }

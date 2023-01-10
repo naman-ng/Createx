@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       <div className="justify-center items-center h-screen flex ">
         <VStack gap={8}>
           <ConnectButton />
-          <Text className="text-4xl font-bold">Let's initialise Bundlr now</Text>
+          <Text className="text-4xl font-bold">First initialize Bundlr</Text>
           <Button className="mt-10" onClick={initialiseBundlr}>
             Initialise Bundlr
           </Button>

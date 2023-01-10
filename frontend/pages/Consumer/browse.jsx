@@ -33,7 +33,7 @@ export default function browse() {
     <div>
       <div className="flex flex-col justify-center items-center h-screen font-poppins">
         <h1 className="text-5xl font-bold pb-2 mt-10 text-slate-900 text-transparent bg-clip-text bg-gradient-to-r from-[#00A660] to-[#28CE88] text-center lg:text-7xl">
-          Livepeer IPFS/Arweave Video Playback
+          Livepeer Arweave Video Playback
         </h1>
 
         <input

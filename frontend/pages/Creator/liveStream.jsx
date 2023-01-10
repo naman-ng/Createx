@@ -41,18 +41,20 @@ export default function liveStream() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="text-5xl font-bold pb-2 mt-2 text-center lg:text-7xl">LIVE STREAM page</h1>{' '}
+      <h1 className="text-5xl font-bold pb-2 mt-5 text-slate-900 text-transparent bg-clip-text bg-gradient-to-r from-[#00A660] to-[#28CE88] text-center lg:text-7xl">
+        LIVE STREAM page
+      </h1>{' '}
       <input
         type="text"
         placeholder="Stream name"
-        className="border-l-gray-700"
+        className="mt-20 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         onChange={(e) => setStreamName(e.target.value)}
       />
       <button
         onClick={() => {
           createStream?.();
         }}
-        className="m-10 border border-cyan-600 p-2 rounded-md"
+        className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-10 m-10"
       >
         Create Stream
       </button>
@@ -63,7 +65,10 @@ export default function liveStream() {
           <p className=" text-fuchsia-600 text-lg mt-2">Playback ID: {stream.playbackId}</p>
         </>
       )}
-      <button onClick={sendNotification} className="m-10 border border-cyan-600 p-2 rounded-md">
+      <button
+        onClick={sendNotification}
+        className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center p-10 m-10"
+      >
         Send Notification
       </button>
     </div>
